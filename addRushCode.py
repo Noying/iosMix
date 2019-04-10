@@ -44,7 +44,7 @@ def initDataBase():
     cursor.execute('create table classTable(className varchar(30),fatherClassName varchar(20))')
     cursor.execute('create table classProtery(className varchar(30),properName varchar(30),properType varchar(20))')
     cursor.execute('create table classMethod(className varchar(30),methodName varchar(30),methodReturnType varchar(20),methodInputType varchar(20),methodInputTypeIndex number,methodInputCount number,inputName varchar(20))')
-    cursor.execute('create table classNeedImportClass (className varchar(30),classNeedName varchar(30) UNIQUE)')
+    cursor.execute('create table classNeedImportClass (className varchar(30),classNeedName varchar(30))')
     cursor.close()
     conn.commit()
     conn.close()
@@ -95,15 +95,18 @@ def randomClassProper():
 def randomMethod():
     global run_list
     global inputTypeList
+    global word_name_list
     #此处规定一个类随机几个函数
     count = 5
     conn = sqlite3.connect("class.db")
     cursor = conn.cursor()
     cursor.execute('select className from classTable')
     classNameArr = cursor.fetchall()
-  
+    
     for className in classNameArr:
         for i in range(0,count):
+            #随机函数需要几个参数
+
             methodName = random.choice(run_list)+random.choice(word_name_list).capitalize() + ":with" +random.choice(word_name_list).capitalize() +":with"+random.choice(word_name_list).capitalize()
             methodType = random.choice(classNameArr)[0] +":"+random.choice(classNameArr)[0]+":"+random.choice(classNameArr)[0]
             returnType = random.choice(inputTypeList)
